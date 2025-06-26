@@ -1,0 +1,181 @@
+.beat-list-item {
+  display: grid;
+  grid-template-columns: 50px 1fr 70px 70px 80px 80px;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.beat-list-item:last-child {
+  border-bottom: none;
+}
+
+.beat-list-item:hover {
+  background-color: #457de6;
+}
+
+.beat-list-item.selected {
+  background-color: #42d0e9;
+}
+
+.beat-list-item.playing {
+  background-color: #83acf8;
+  color: white;
+}
+.beat-list-item.playing .item-bpm,
+.beat-list-item.playing .item-key {
+  color: white;
+}
+
+.item-play-status {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a0a0a0;
+}
+
+.beat-list-item:hover .item-play-status {
+  color: white;
+}
+
+.play-icon {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.beat-list-item:hover .play-icon {
+  transform: scale(1.2);
+}
+
+.item-title-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.item-bpm,
+.item-key,
+.item-price {
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.item-price {
+  color: white;
+  font-weight: 500;
+}
+
+/* --- MODIFICATIONS START HERE --- */
+
+.item-cart-action {
+  text-align: center;
+  /* Center the button within the grid cell */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-to-cart-btn {
+  /* 1. Set as positioning context for the image */
+  position: relative;
+
+  /* 2. Define a reasonable clickable area, removing original background/border */
+  width: 35px;
+  height: 35px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  /* 3. For centering the 'in cart' checkmark ('✓') */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* 4. The image is positioned absolutely over the button */
+.add-to-cart-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0.3;
+  transform: translate(-50%, -50%);
+  
+  /* 5. Set the visual size of the image (bigger than the button) */
+  width: 45px;
+  height: 45px;
+  
+  /* 6. Let clicks pass through to the button underneath */
+  pointer-events: none;
+
+  /* 7. Add a subtle transition for the hover effect */
+  transition: all 0.2s ease;
+}
+
+/* 8. Recreate a hover effect by targeting the icon */
+.add-to-cart-btn:hover .add-to-cart-icon {
+  transform: translate(-50%, -50%) scale(1.1); /* Enlarge image on hover */
+  opacity: 0.9;
+}
+
+/* 9. Style the disabled state (when item is in cart) */
+.add-to-cart-btn:disabled {
+  background-color: transparent;
+  color: #1DB954; /* Color for the checkmark */
+  border-color: transparent;
+  cursor: default;
+}
+
+/* --- MODIFICATIONS END HERE --- */
+
+/* --- SIMPLE & FLAWLESS WAVEFORM ANIMATION --- */
+.waveform {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Aligns bars to the bottom */
+  height: 16px;
+  width: 20px;
+  gap: 2px;
+}
+
+/* Keyframe animation that directly animates height */
+@keyframes sound_wave {
+  0%, 100% {
+    height: 20%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+.waveform-bar {
+  width: 2px;
+  background-color: #9953db;
+  border-radius: 1px;
+  
+  /* Applying the new, simpler animation */
+  animation-name: sound_wave;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+/* Staggered delays to create a wave effect */
+.waveform-bar:nth-child(1) { animation-delay: -1.1s; }
+.waveform-bar:nth-child(2) { animation-delay: -0.9s; }
+.waveform-bar:nth-child(3) { animation-delay: -0.7s; }
+.waveform-bar:nth-child(4) { animation-delay: -0.5s; }
+.waveform-bar:nth-child(5) { animation-delay: -0.3s; }
