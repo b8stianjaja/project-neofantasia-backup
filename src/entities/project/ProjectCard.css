@@ -1,88 +1,68 @@
-/* Styling for the ProjectCard component */
+/*
+ * Stylesheet for the Ethereal Project Card
+ */
 .project-card {
-  background-color: rgba(0, 20, 35, 0.85);
-  border: 2px solid #0aa;
+  padding: 1.25rem 1.5rem;
   border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 1rem;
   cursor: pointer;
-  height: 100%;
+  border: 1px solid transparent;
+  background-color: rgba(36, 40, 46, 0.5);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.3);
-  border-color: #0ff;
+  background-color: rgba(58, 64, 73, 0.5);
 }
 
-.project-card-image-container {
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
+.project-card.focused {
+  border-color: var(--glow-color);
+  box-shadow: 0 0 15px rgba(167, 146, 255, 0.2);
 }
 
-.project-card-image {
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.card-header h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Glowing status pulse */
+.card-status-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+}
+.card-status-pulse::after {
+  content: '';
+  position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  image-rendering: pixelated;
-}
-
-.project-card-info {
-  padding: 15px;
-  flex-grow: 1;
-}
-
-.project-card-title {
-  font-size: 1.5rem;
-  margin: 0 0 5px 0;
-  color: #fff;
-  text-shadow: 0 0 5px #0ff;
-  letter-spacing: 1px;
-}
-
-.project-card-beat-title {
-  font-size: 1rem;
-  color: #ccc;
-  margin: 0 0 15px 0;
-}
-
-.project-card-status-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.project-card-status-indicator {
-  width: 12px;
-  height: 12px;
   border-radius: 50%;
-  box-shadow: 0 0 8px;
+  animation: pulse-glow 2s infinite;
 }
 
-.status-in-progress { background-color: #0ff; box-shadow: 0 0 8px #0ff; }
-.status-review { background-color: #f0f; box-shadow: 0 0 8px #f0f; }
-.status-completed { background-color: #0f0; box-shadow: 0 0 8px #0f0; }
-.status-ideation { background-color: #ff0; box-shadow: 0 0 8px #ff0; }
+.status-in-progress { background-color: #5a87c7; }
+.status-in-progress::after { box-shadow: 0 0 8px #5a87c7; }
 
-.project-card-status {
-  font-size: 1rem;
-  text-transform: uppercase;
-  color: #fff;
-  letter-spacing: 1px;
+/* ... add other status colors as needed ... */
+
+@keyframes pulse-glow {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(167, 146, 255, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 10px 10px rgba(167, 146, 255, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(167, 146, 255, 0); }
 }
 
-.project-card-footer {
-  padding: 10px 15px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid #0aa;
-}
-
-.project-card-last-updated {
-  font-size: 0.8rem;
-  color: #aaa;
+.card-body p {
   margin: 0;
-  text-align: right;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }

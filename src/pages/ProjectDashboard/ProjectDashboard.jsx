@@ -1,83 +1,107 @@
-import React, { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './ProjectDashboard.css';
-import '../../pages/Page.css';
-// CORRECTED PATH: Aligned with the project's entity structure.
+// src/pages/ProjectDashboard/ProjectDashboard.jsx
+
+import React, { useState, useEffect, useMemo } from 'react';
 import ProjectCard from '../../entities/project/ProjectCard';
+import { getProjects } from '../../services/api';
+import './ProjectDashboard.css';
 
-// Mock data representing projects fetched from a backend
-const mockProjects = [
-  { id: 'proj-001', name: 'Cosmic Drift Remix', status: 'In Progress', lastUpdated: '2025-06-25', beat: { id: 1, title: 'Cosmic Drift', imgSrc: '/beats/cosmic-drift.jpg' } },
-  { id: 'proj-002', name: 'Neon Soul Collab', status: 'Under Review', lastUpdated: '2025-06-22', beat: { id: 2, title: 'Neon Soul', imgSrc: '/beats/neon-soul.jpg' } },
-  { id: 'proj-003', name: 'Starlight Vocal Mix', status: 'Completed', lastUpdated: '2025-05-10', beat: { id: 3, title: 'Starlight', imgSrc: '/beats/starlight.jpg' } },
-  { id: 'proj-004', name: 'Future Echoes Idea', status: 'Ideation', lastUpdated: '2025-06-24', beat: { id: 4, title: 'Future Echoes', imgSrc: '/beats/future-echoes.jpg' } },
-  { id: 'proj-005', name: 'Cyberdream Main Theme', status: 'In Progress', lastUpdated: '2025-06-20', beat: { id: 5, title: 'Cyberdream', imgSrc: '/beats/cyberdream.jpg' } },
-];
-
-/**
- * ProjectDashboard - Renders the "Centralized Workflow Hub".
- */
-const ProjectDashboard = () => {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('lastUpdated');
-
-  const filteredProjects = useMemo(() => {
-    let projects = [...mockProjects];
-    if (searchTerm) {
-      projects = projects.filter(p =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.beat.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+// --- Sub-component for the dynamic Collaboration Space ---
+const CollaborationSpace = ({ project, onExitFocus }) => {
+    if (!project) {
+        return (
+            <div className="collaboration-placeholder">
+                <div className="placeholder-content">
+                    <h3>Select a Project</h3>
+                    <p>Choose a project from the celestial stream to focus your work.</p>
+                </div>
+            </div>
+        );
     }
-    projects.sort((a, b) => {
-      if (sortBy === 'lastUpdated') return new Date(b.lastUpdated) - new Date(a.lastUpdated);
-      if (sortBy === 'name') return a.name.localeCompare(b.name);
-      if (sortBy === 'status') return a.status.localeCompare(b.status);
-      return 0;
-    });
-    return projects;
-  }, [searchTerm, sortBy]);
 
-  const handleBack = () => {
-    navigate('/');
-  };
+    // This is where Chat, Tasks, etc., would live in the future.
+    return (
+        <div className="collaboration-content">
+            <button onClick={onExitFocus} className="exit-focus-btn">
+                &larr; Return to Hub
+            </button>
+            <div className="content-header">
+                <h2>{project.title}</h2>
+                <span className={`project-status-tag status-${project.status.toLowerCase().replace(' ', '-')}`}>
+                    {project.status}
+                </span>
+            </div>
+            <p className="project-collaborators">
+                With: {project.collaborators.join(', ')}
+            </p>
+            <div className="project-tools-placeholder">
+                <p><i>(Project tools, chat, and file uploads will be displayed here.)</i></p>
+            </div>
+        </div>
+    );
+};
 
-  return (
-    <div className="page-container">
-      <div className="dashboard-page">
-        <h1 className="dashboard-title">CENTRALIZED WORKFLOW HUB</h1>
-        <div className="controls-container">
-          <input
-            type="text"
-            placeholder="Search projects..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="lastUpdated">Sort by Last Updated</option>
-            <option value="name">Sort by Name</option>
-            <option value="status">Sort by Status</option>
-          </select>
+// --- Main Dashboard Component ---
+const ProjectDashboard = () => {
+    const [projects, setProjects] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [focusedProject, setFocusedProject] = useState(null);
+
+    useEffect(() => {
+        const loadProjects = async () => {
+            try {
+                setIsLoading(true);
+                // Add a small delay to showcase the loading animation
+                await new Promise(res => setTimeout(res, 750)); 
+                const data = await getProjects();
+                setProjects(data);
+            } catch (err) {
+                setError('Could not retrieve project data.');
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        loadProjects();
+    }, []);
+    
+    // Add a class to the main container when a project is focused
+    const hubLayoutClasses = `celestial-hub-layout ${focusedProject ? 'focus-mode' : ''}`;
+
+    return (
+        <div id="dashboard-page-container" className={hubLayoutClasses}>
+            {/* Left Column: The "Celestial Stream" of projects */}
+            <aside className="hub-project-stream">
+                <header className="stream-header">
+                    <h3>Celestial Stream</h3>
+                </header>
+                <div className="stream-scroll-area">
+                    {isLoading && (
+                        <div className="loading-pulse">
+                            <div></div><div></div><div></div>
+                        </div>
+                    )}
+                    {error && <div className="status-message error">{error}</div>}
+                    {!isLoading && !error && projects.map(project => (
+                        <ProjectCard 
+                            key={project.id} 
+                            project={project}
+                            isFocused={focusedProject?.id === project.id}
+                            onSelect={() => setFocusedProject(project)}
+                        />
+                    ))}
+                </div>
+            </aside>
+
+            {/* Right Column: The immersive collaboration space */}
+            <main className="hub-focus-space">
+                <CollaborationSpace 
+                    project={focusedProject}
+                    onExitFocus={() => setFocusedProject(null)}
+                />
+            </main>
         </div>
-        <div className="projects-grid">
-          {filteredProjects.map((project) => (
-            <Link to={`/projects/${project.id}`} key={project.id} className="project-link">
-              <ProjectCard project={project} />
-            </Link>
-          ))}
-        </div>
-        <div className="dashboard-actions">
-          <button onClick={handleBack} className="back-button">BACK</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProjectDashboard;
