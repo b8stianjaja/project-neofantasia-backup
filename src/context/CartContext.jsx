@@ -9,10 +9,7 @@ export const CartProvider = ({ children }) => {
     const [purchasedBeats, setPurchasedBeats] = useState([]);
 
     const addToCart = (beat) => {
-        if (cartItems.find(item => item.id === beat.id)) {
-            alert('This beat is already in your cart.');
-            return;
-        }
+        // This part is working correctly
         setCartItems(prevItems => [...prevItems, beat]);
     };
 
@@ -20,29 +17,23 @@ export const CartProvider = ({ children }) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== beatId));
     };
 
-    const clearCart = () => {
-        setCartItems([]);
+    // This is the function that moves items to the final list
+    const addPurchasedBeats = (beats) => {
+        console.log("✅ addPurchasedBeats CALLED with:", beats);
+        setPurchasedBeats(prevBeats => [...prevBeats, ...beats]);
     };
 
-    const addPurchasedBeats = (beats) => {
-        setPurchasedBeats(prevBeats => {
-            const newBeats = [...prevBeats];
-            const purchasedIds = new Set(prevBeats.map(b => b.id));
-            beats.forEach(beat => {
-                if (!purchasedIds.has(beat.id)) {
-                    newBeats.push(beat);
-                }
-            });
-            return newBeats;
-        });
+    const clearCart = () => {
+        console.log("✅ clearCart CALLED");
+        setCartItems([]);
     };
 
     const value = {
         cartItems,
-        purchasedBeats,
         addToCart,
         removeFromCart,
         clearCart,
+        purchasedBeats,
         addPurchasedBeats,
     };
 
