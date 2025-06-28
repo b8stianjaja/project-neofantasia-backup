@@ -1,106 +1,84 @@
-import React, { useRef } from 'react';
-import { NavLink } from 'react-router-dom';
-import beats from '../../entities/beat/beats';
-import BeatListItem from '../../entities/beat/BeatListItem'; // This is the corrected BeatListItem
+import React, { useState, useEffect, useMemo } from 'react';
+import BeatListItem from '../../entities/beat/BeatListItem';
 import { useMusic } from '../../context/MusicContext';
-import './BeatsPage.css'; // Your CSS for this page
+import mockBeats from '../../entities/beat/beats.js';
+import './BeatsPage.css';
 
-const formatTime = (secs) => {
-  const minutes = Math.floor(secs / 60) || 0;
-  const seconds = Math.floor(secs % 60) || 0;
-  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-};
+const ArtworkDisplay = () => {
+  const { activeTrack, isPlaying } = useMusic();
 
-function BeatsPage() {
-  const {
-    playBeat,
-    pauseBeat,
-    selectTrack,
-    activeTrack,
-    isPlaying,
-    playbackInfo,
-    seekTo
-  } = useMusic();
-
-  const timelineRef = useRef(null);
-
-  const handlePlay = (beat) => playBeat(beat);
-  const handlePause = () => pauseBeat();
-  const handleSelectBeat = (beat) => {
-    selectTrack(beat);
-  };
-
-  const handleSeek = (event) => {
-    if (!timelineRef.current || !activeTrack) return;
-    const rect = timelineRef.current.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(1, clickX / rect.width));
-    seekTo(percentage);
-  };
-
-  const displayBeat = activeTrack;
-  const isPlayingActiveTrack = isPlaying && activeTrack !== null;
-
-  const progressPercent = activeTrack && playbackInfo.duration > 0 ? (playbackInfo.seek / playbackInfo.duration) * 100 : 0;
-  const beatDuration = activeTrack?.duration || playbackInfo.duration || 0;
-  const currentTime = formatTime(playbackInfo.seek);
-  const totalTime = formatTime(beatDuration);
+  if (!activeTrack) {
+    return (
+      <div className="artwork-display-container">
+        <div className="artwork-wrapper" />
+        <div className="artwork-title">Select a Beat</div>
+      </div>
+    );
+  }
 
   return (
-    <main className="beats-page-layout">
-      <div className="beat-list-container">
-        <div className="beat-list-header">
-          <span>Track</span>
-          <span>BPM</span>
-          <span>Key</span>
-          <span>Price</span>
-        </div>
-        <div className="beat-list-items">
-          {beats.map((beat) => {
-            const isThisBeatPlaying = isPlaying && activeTrack?.id === beat.id;
-            const isThisBeatSelected = activeTrack?.id === beat.id;
-
-            return (
-              <BeatListItem
-                key={beat.id}
-                beat={beat}
-                isPlaying={isThisBeatPlaying}
-                isSelected={isThisBeatSelected}
-                onPlay={() => handlePlay(beat)}
-                onPause={() => handlePause()}
-                onSelect={() => handleSelectBeat(beat)}
-              />
-            );
-          })}
-        </div>
+    <div className="artwork-display-container">
+      <div className="artwork-wrapper">
+        <img
+          src={activeTrack.artwork}
+          alt={activeTrack.title}
+          className={`artwork-image ${isPlaying ? 'playing' : ''}`}
+        />
       </div>
-      <div className="artwork-display-container">
-        {displayBeat && (
-          <>
-            {/* Added a wrapper div for the animation */}
-            <div className="artwork-wrapper">
-              <img
-                src={displayBeat.artwork}
-                alt={displayBeat.title}
-                className={`artwork-image ${isPlayingActiveTrack ? 'playing' : ''}`}
-              />
-            </div>
-            <h2 className="artwork-title">{displayBeat.title}</h2>
-            <div ref={timelineRef} className="timeline-container" onClick={handleSeek}>
-              <div className="timeline-progress" style={{ width: `${progressPercent}%` }}>
-                <div className="timeline-handle"></div>
-              </div>
-            </div>
-            <div className="timer-display">
-              <span>{currentTime}</span>
-              <span>{totalTime}</span>
-            </div>
-          </>
-        )}
-      </div>
-      <NavLink to="/" className="back-to-menu-link"> &larr; Back </NavLink>
-    </main>
+      <h2 className="artwork-title">{activeTrack.title}</h2>
+      <p className="artwork-artist">{activeTrack.artist}</p>
+    </div>
   );
-}
+};
+
+const BeatsPage = () => {
+    const [beats, setBeats] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        try {
+            setTimeout(() => {
+                if (Array.isArray(mockBeats)) {
+                    setBeats(mockBeats);
+                } else {
+                    setBeats(mockBeats.default || []);
+                }
+                setIsLoading(false);
+            }, 500);
+        } catch (err) {
+            console.error("Error loading beats:", err);
+            setError('Failed to load beats. Please try again later.');
+            setIsLoading(false);
+        }
+    }, []);
+
+    const memoizedBeatList = useMemo(() => {
+        if (!Array.isArray(beats)) return null;
+        return beats.map(beat => <BeatListItem key={beat.id} beat={beat} />);
+    }, [beats]);
+
+    const renderContent = () => {
+        if (isLoading) return <p className="loading-message">Loading beats...</p>;
+        if (error) return <p className="error-message">{error}</p>;
+        return <div className="beat-list-items">{memoizedBeatList}</div>;
+    };
+
+    return (
+        <div className="beats-page-layout">
+            <div className="beat-list-container">
+                <div className="beat-list-header">
+                    <span>{/* Play button column */}</span>
+                    <span>Track</span>
+                    <span>Genre</span>
+                    <span>BPM</span>
+                    <span>Price</span>
+                </div>
+                {renderContent()}
+            </div>
+            <ArtworkDisplay />
+        </div>
+    );
+};
 
 export default BeatsPage;

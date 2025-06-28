@@ -1,65 +1,67 @@
 import React from 'react';
-import { useCart } from '../../context/CartContext'; // Ensure this path is correct
-import './BeatListItem.css'; // Your CSS for BeatListItem
+import { useMusic } from '../../context/MusicContext';
+import { useCart } from '../../context/CartContext';
+import './BeatListItem.css';
 
-const BeatListItem = ({ beat, isPlaying, isSelected, onPlay, onPause, onSelect }) => {
+const BeatListItem = React.memo(({ beat }) => {
+  const { playBeat, pauseBeat, activeTrack, isPlaying } = useMusic();
   const { addToCart, cartItems } = useCart();
+
+  const isThisBeatPlaying = activeTrack?.id === beat.id && isPlaying;
+  const isThisBeatSelected = activeTrack?.id === beat.id;
   const isInCart = cartItems.some(item => item.id === beat.id);
 
+  const handlePlayPauseClick = (e) => {
+    e.stopPropagation();
+    if (isThisBeatPlaying) {
+      pauseBeat();
+    } else {
+      playBeat(beat);
+    }
+  };
+
+  const handleRowClick = () => {
+    if (!isThisBeatPlaying) {
+      playBeat(beat);
+    }
+  };
+
   const handleAddToCart = (e) => {
-    e.stopPropagation(); // Prevent the parent div's onClick (onSelect) from firing
+    e.stopPropagation();
     addToCart(beat);
   };
 
-  // Simple waveform component for visual feedback when playing
-  const Waveform = () => (
-    <div className="waveform">
-      <div className="waveform-bar"></div>
-      <div className="waveform-bar"></div>
-      <div className="waveform-bar"></div>
-      <div className="waveform-bar"></div>
-      <div className="waveform-bar"></div>
-    </div>
-  );
-
-  const beatName = beat.title || beat.name; // Use title, fallback to name
-  // Apply CSS classes based on playback and selection state
-  const itemClasses = `beat-list-item ${isPlaying ? 'playing' : ''} ${isSelected ? 'selected' : ''}`;
+  const itemClasses = `beat-list-item ${isThisBeatSelected ? 'selected' : ''}`;
 
   return (
-    // Clicking the entire item selects it
-    <div className={itemClasses} onClick={onSelect}>
-      <div
-        className="item-play-status"
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent onSelect from firing when clicking play/pause
-          if (isPlaying) {
-            onPause(); // If currently playing, call pause
-          } else {
-            onPlay(); // If not playing, call play
-          }
-        }}
-      >
-        {isPlaying ? <Waveform /> : <span className="play-icon">▶</span>}
+    <div className={itemClasses} onClick={handleRowClick}>
+      <div className="item-play-status">
+        <button onClick={handlePlayPauseClick} className="play-pause-btn" aria-label={isThisBeatPlaying ? 'Pause' : 'Play'}>
+          {isThisBeatPlaying ? '❚❚' : '▶'}
+        </button>
       </div>
-      <div className="item-title-container">
-        <img src={beat.artwork} alt={beatName} className="item-image" />
-        <span className="item-title">{beatName}</span>
+      <div className="item-track-info">
+        <img src={beat.artwork} alt={beat.title} className="item-artwork" />
+        <div className="title-artist">
+          <span className="item-title">{beat.title}</span>
+          <span className="item-artist">{beat.artist}</span>
+        </div>
       </div>
-      <span className="item-bpm">{beat.bpm}</span>
-      <span className="item-key">{beat.key || "N/A"}</span>
-      <span className="item-price">${beat.price.toFixed(2)}</span>
-      <div className="item-cart-action">
+      <div className="item-genre">{beat.genre}</div>
+      <div className="item-bpm">{beat.bpm} BPM</div>
+      <div className="item-price-action">
+        <span className="item-price">${beat.price.toFixed(2)}</span>
         <button
           className="add-to-cart-btn"
           onClick={handleAddToCart}
-          disabled={isInCart} // Disable button if item is already in cart
+          disabled={isInCart}
+          aria-label={isInCart ? 'In Cart' : 'Add to Cart'}
         >
-          {isInCart ? '✓' : <img src="/images/shopcart.png" alt="Add to cart" className="add-to-cart-icon" />}
+          {isInCart ? '✓ IN CART' : 'ADD +'}
         </button>
       </div>
     </div>
   );
-};
+});
 
 export default BeatListItem;
