@@ -4,13 +4,16 @@ import { useCart } from '../../context/CartContext';
 import './CartPage.css';
 
 function CartPage() {
-  const { cartItems, removeFromCart, clearCart, getTotalPrice } = useCart();
+  const { cartItems, removeFromCart, clearCart, getTotalPrice, addPurchasedBeats } = useCart();
   const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [itemsToConfirm, setItemsToConfirm] = useState([]); // State to hold items for confirmation
 
   const handleCheckout = (e) => {
     e.preventDefault();
     if (cartItems.length > 0) {
+      setItemsToConfirm(cartItems); // Store cart items before showing modal
+      console.log('CartPage: Initiating checkout with cartItems:', cartItems);
       setShowConfirmation(true);
     } else {
       alert('Your cart is empty!');
@@ -18,11 +21,12 @@ function CartPage() {
   };
   
   const handleConfirmCheckout = () => {
-    // In a real app, this would involve payment processing.
-    console.log('Purchase confirmed!');
-    clearCart();
+    console.log('CartPage: Confirming checkout for items:', itemsToConfirm);
+    addPurchasedBeats(itemsToConfirm); // Use the items captured at initiation
+    clearCart(); // Clear the cart after purchase
     setShowConfirmation(false);
-    navigate('/beats');
+    setItemsToConfirm([]); // Clear temporary state
+    navigate('/hub'); // Navigate to the Collaboration Hub
   };
 
   const renderConfirmationModal = () => (
@@ -30,9 +34,9 @@ function CartPage() {
       <div className="checkout-modal-content">
         <h2 className="checkout-modal-title">Purchase Complete!</h2>
         <p>Thank you for your order.</p>
-        <p>Your beats are now available for download (not really, this is a demo!)</p>
+        <p>Your beats are now available in your Collaboration Hub!</p>
         <button onClick={handleConfirmCheckout} className="crystal-button">
-          Continue Shopping
+          Go to Hub
         </button>
       </div>
     </div>

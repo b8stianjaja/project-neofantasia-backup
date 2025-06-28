@@ -6,7 +6,7 @@ const beats = [
     genre: 'Trap',
     bpm: 140,
     price: 29.99,
-    audioSrc: '/sfx/still.mp3',
+    audioSrc: '/sfx/beats/still.wav',
     artwork: '/artwork/artw1.png',
   },
   {
@@ -16,27 +16,27 @@ const beats = [
     genre: 'Lo-Fi',
     bpm: 80,
     price: 29.99,
-    audioSrc: '/sfx/shrine.mp3',
-    artwork: '/artwork/image.png',
+    audioSrc: '/sfx/beats/shrine.mp3',
+    artwork: '/artwork/ffx1.gif',
   },
   {
     id: 'beat3',
-    title: 'Energetic Flow', // FIX: Changed 'name' to 'title'
+    title: '𝐴𝑛𝑔𝑒𝑙 𝑊𝑖𝑛𝑔𝑠', // FIX: Changed 'name' to 'title'
     artist: 'Neofantasia',
     genre: 'Pop',
     bpm: 128,
     price: 29.99,
-    audioSrc: '/sfx/energetic_flow.mp3',
+    audioSrc: '/sfx/beats/angelwings.wav',
     artwork: '/artwork/artw1.png',
   },
   {
     id: 'beat4',
-    title: 'Cosmic Drift', // Added for better ring effect
+    title: '𝑆𝑢𝑚𝑚𝑒𝑟𝑠 𝐺𝑜𝑛𝑒', // Added for better ring effect
     artist: 'Neofantasia',
     genre: 'Ambient',
     bpm: 100,
     price: 29.99,
-    audioSrc: '/sfx/title-theme.wav',
+    audioSrc: '/sfx/beats/summersgone.wav',
     artwork: '/artwork/artw1.png',
   },
   {

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import beats from '../../entities/beat/beats';
-import BeatListItem from '../../entities/beat/BeatListItem';
+import BeatListItem from '../../entities/beat/BeatListItem'; // This is the corrected BeatListItem
 import { useMusic } from '../../context/MusicContext';
 import './BeatsPage.css'; // Your CSS for this page
 

@@ -1,116 +1,484 @@
 /* src/pages/DedicatedProjectRoom/DedicatedProjectRoom.css */
 
+/* Re-use variables from CollaborationHub.css for consistency */
+:root {
+  --white-bg: #f5f7fa;
+  --panel-bg-alpha: rgba(255, 255, 255, 0.7);
+  --border-light: rgba(0, 0, 0, 0.05); /* Even lighter border */
+  --text-dark: #333333;
+  --text-muted: #777777;
+  --accent-blue-light: #c9e2ff;
+  --accent-blue-dark: #a7d9ff;
+  --shadow-extra-soft: 0 1px 3px rgba(0, 0, 0, 0.005); /* Barely visible */
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.015); /* Main panel shadows */
+  --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.03); /* Hover shadows */
+}
+
 .project-room-container {
   width: 100%;
-  min-height: 100vh;
-  padding: 2rem;
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-  color: #333;
+  min-height: 100vh; /* Will be contained by parent's height and allow scroll */
+  padding: 1.5rem 2rem; /* Reduced overall padding for tighter minimalism */
+  background-color: var(--white-bg);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
+.project-room-container::-webkit-scrollbar { width: 6px; }
+.project-room-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.08);
+  border-radius: 3px;
+}
+.project-room-container::-webkit-scrollbar-track { background-color: transparent; }
+
 
 .project-room-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.2rem; /* Further reduced margin */
+  padding-bottom: 0.6rem; /* Further reduced padding */
+  border-bottom: 1px solid var(--border-light);
 }
 
 .project-room-header h1 {
-  font-size: 2.5rem;
+  font-size: 2rem; /* Adjusted for overall minimalism */
   font-weight: 300;
-  margin: 0.5rem 0;
-}
-
-.back-link {
-  color: #555;
-  text-decoration: none;
-  margin-bottom: 0.5rem;
-  display: inline-block;
+  margin: 0.2rem 0 0.4rem 0; /* Adjusted spacing */
 }
 
 .project-status {
-  padding: 0.3rem 0.8rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem; /* Further reduced padding */
+  border-radius: 10px; /* More subtle roundedness */
+  font-size: 0.7rem; /* Even smaller font */
   font-weight: 500;
+  display: inline-block;
+  margin-top: 0.2rem;
 }
-.status-in-progress { background-color: #e0cffc; color: #5c3b8e; }
+.status-in-progress { background-color: rgba(167, 217, 255, 0.2); color: #5aa1e1; }
+.status-under-review { background-color: rgba(255, 230, 150, 0.2); color: #d6b300; }
+.status-completed { background-color: rgba(150, 255, 150, 0.2); color: #4CAF50; }
+
 
 /* --- Main Layout Grid --- */
 
 .project-room-layout {
   display: grid;
-  grid-template-columns: 2fr 5fr 2fr; /* Sidebar | Main Content | Sidebar */
-  gap: 2rem;
+  grid-template-columns: 1fr 200px; /* Main content wider, single slimmer right sidebar */
+  gap: 1.2rem; /* Reduced gap */
 }
 
 .project-sidebar, .project-main-content {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  padding: 1.5rem;
+  background: var(--panel-bg-alpha);
+  backdrop-filter: blur(12px); /* Slightly less blur for minimalism */
+  border-radius: 8px; /* More subtle rounded corners */
+  border: 1px solid var(--border-light);
+  padding: 1rem; /* Reduced padding for a tighter look */
+  box-shadow: var(--shadow-soft);
+  box-sizing: border-box;
 }
+
+/* Specific styling for the combined right sidebar */
+.project-sidebar.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; /* Reduced gap between modules in the sidebar */
+    overflow-y: auto; /* Allow sidebar to scroll */
+}
+.project-sidebar.right-sidebar::-webkit-scrollbar { width: 5px; }
+.project-sidebar.right-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 2.5px;
+}
+.project-sidebar.right-sidebar::-webkit-scrollbar-track { background-color: transparent; }
+
 
 .sidebar-module h4 {
   margin-top: 0;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  font-weight: 400;
+  font-size: 0.95rem; /* Further smaller heading */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03); /* Very very light border */
+  padding-bottom: 0.4rem; /* Reduced padding */
+  margin-bottom: 0.6rem; /* Reduced margin */
+  color: var(--text-dark);
 }
 
 .sidebar-module ul {
   list-style: none;
   padding: 0;
 }
+.sidebar-module ul li {
+  margin-bottom: 0.2rem; /* Further reduced margin */
+  color: var(--text-muted);
+  font-size: 0.8rem; /* Further smaller font */
+}
+.sidebar-module ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.sidebar-module ul li a:hover {
+    color: var(--accent-blue-dark);
+}
+
+/* Activity Feed specific adjustments in combined sidebar */
+.activity-feed-module .activity-feed {
+    max-height: 200px; /* Constraint height for scroll if needed */
+    overflow-y: auto;
+}
+.activity-feed-module .activity-feed::-webkit-scrollbar { width: 4px; } /* Thinner scrollbar */
+.activity-feed-module .activity-feed::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.06);
+  border-radius: 2px;
+}
+.activity-feed-module .activity-feed::-webkit-scrollbar-track { background-color: transparent; }
+
+
+/* --- Tab Navigation --- */
+.collaboration-tabs {
+    display: flex;
+    margin-bottom: 1.2rem; /* Reduced space below tabs */
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.4rem; /* Reduced padding */
+}
+
+.collaboration-tabs button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem; /* Reduced tab button padding */
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+    border-bottom: 2px solid transparent;
+    margin-right: 0.6rem; /* Reduced space between tabs */
+    font-weight: 500;
+    position: relative; /* For the subtle glow effect */
+}
+
+.collaboration-tabs button:hover {
+    color: var(--text-dark);
+}
+
+.collaboration-tabs button.active {
+    color: var(--accent-blue-dark);
+    border-bottom-color: var(--accent-blue-dark);
+}
+/* Subtle glowing effect for active tab */
+.collaboration-tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; /* Aligns with the border */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px; /* Thin glow */
+    background: var(--accent-blue-light); /* Lighter blue for glow */
+    border-radius: 3px;
+    opacity: 0.5;
+    filter: blur(2px);
+    transition: width 0.3s ease;
+}
+.collaboration-tabs button:not(.active):hover::after {
+    width: 0; /* Hide glow on non-active hover */
+}
+
+
+/* --- Tab Content Area --- */
+.tab-content {
+    /* Contains the conditionally rendered modules */
+}
 
 /* --- Task Board --- */
 .task-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 0.8rem; /* Further reduced gap */
 }
 
 .task-column h3 {
   font-weight: 500;
-  color: #444;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem; /* Further reduced margin */
+  font-size: 0.9rem; /* Even smaller heading */
 }
 
 .tasks-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.4rem; /* Even smaller gap */
 }
 
 .task-card {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--white-bg);
+  padding: 0.7rem; /* Further reduced padding */
+  border-radius: 5px; /* Even less rounded */
+  box-shadow: var(--shadow-extra-soft); /* Barely visible shadow */
+  border: 1px solid transparent; /* No visible border by default */
+  font-size: 0.8rem; /* Even smaller font */
+  transition: all 0.2s ease-out;
 }
 
 .task-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px); /* Very subtle lift */
+  box-shadow: var(--shadow-extra-soft), 0 1px 4px rgba(167, 217, 255, 0.08); /* More subtle glow on hover */
+  border-color: rgba(167, 217, 255, 0.05); /* Very light border */
 }
 
-/* --- Activity Feed --- */
+.no-tasks {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+}
+
+/* --- Activity Feed (as part of combined sidebar) --- */
 .activity-feed {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.4rem; /* Reduced gap */
 }
 .activity-item {
-  font-size: 0.9rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding-bottom: 0.5rem;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.01); /* Almost invisible separator */
+  padding-bottom: 0.3rem; /* Reduced padding */
 }
 .activity-item time {
-  color: #888;
-  font-size: 0.8rem;
+  font-size: 0.65rem; /* Even smaller font */
+}
+
+
+/* --- Chat Module Styling (now within tab content) --- */
+.chat-module h4, .file-management-module h4 {
+    display: none; /* Hide internal H4 as tabs act as headings */
+}
+.chat-window {
+    height: 220px; /* Adjusted chat window height */
+    border-radius: 6px; /* Reduced border radius */
+    padding: 0.8rem; /* Reduced padding */
+    font-size: 0.8rem;
+    gap: 0.5rem; /* Reduced gap */
+    background-color: var(--white-bg); /* Match content background */
+    border: 1px solid var(--border-light);
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack messages */
+    overflow-y: auto; /* Enable scrolling for chat history */
+}
+
+.chat-placeholder-message { /* New class for placeholder message */
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.75rem;
+    margin-bottom: auto; /* Pushes messages to the bottom */
+    text-align: center; /* Center the placeholder */
+}
+/* Hide placeholder if there are messages */
+.chat-window:has(.chat-message) .chat-placeholder-message {
+    display: none;
+}
+
+.chat-message { /* New class for chat bubbles */
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-extra-soft);
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 0.8rem;
+    flex-shrink: 0; /* Prevent messages from shrinking */
+    display: flex; /* Flexbox for sender and time */
+    flex-direction: column; /* Stack sender and message */
+}
+.chat-message time { /* Style for message timestamp */
+    align-self: flex-end;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+.chat-message strong {
+    font-weight: 600; /* Make names stand out */
+    margin-bottom: 0.1rem; /* Space between name and message */
+}
+.chat-message.producer {
+    align-self: flex-start;
+    background-color: var(--panel-bg-alpha);
+    color: var(--text-dark);
+}
+.chat-message.producer strong {
+    color: var(--accent-blue-dark);
+}
+.chat-message.buyer {
+    align-self: flex-end;
+    background-color: rgba(167, 217, 255, 0.2); /* Lighter blue for buyer messages */
+    color: var(--text-dark);
+}
+.chat-message.buyer strong {
+    color: var(--text-dark); /* Keep names dark for buyer */
+}
+
+.chat-input-area { /* New container for textarea and button */
+    display: flex;
+    margin-top: 0.8rem;
+    gap: 0.5rem;
+}
+
+textarea {
+    flex-grow: 1; /* Make textarea fill available space */
+    margin-top: 0; /* Remove top margin, handled by parent div */
+    padding: 0.6rem; /* Reduced padding */
+    border-radius: 5px;
+    font-size: 0.85rem;
+    min-height: 60px; /* Reduced min height */
+    background-color: var(--white-bg); /* Match background, lighter than panel */
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-extra-soft);
+}
+.chat-send-btn { /* Specific style for send button */
+    flex-shrink: 0; /* Don't shrink button */
+    padding: 0.6rem 1rem; /* Adjusted padding */
+    font-size: 0.85rem;
+    border-radius: 5px;
+    background-color: var(--accent-blue-dark);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.chat-send-btn:hover {
+    background-color: #79c8ff;
+    box-shadow: 0 2px 6px rgba(167, 217, 255, 0.2);
+}
+
+/* --- File Management Styling (now within tab content) --- */
+.file-list {
+    border-radius: 6px;
+    padding: 0.7rem; /* Reduced padding */
+    font-size: 0.8rem;
+    background-color: var(--white-bg);
+    border: 1px solid var(--border-light);
+}
+.file-list ul {
+    margin-top: 0.7rem; /* Reduced margin */
+}
+.file-list li {
+    padding: 0.3rem 0; /* Reduced padding */
+    font-size: 0.75rem;
+}
+.upload-file-btn { /* Specific style for upload button */
+    margin-top: 0.8rem; /* Adjusted margin */
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    background-color: #28a745; /* Green for upload */
+    color: white;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.upload-file-btn:hover {
+    background-color: #218838;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.2);
+}
+
+
+/* --- Mobile Responsiveness for Dedicated Project Room --- */
+@media (max-width: 1024px) {
+  .project-room-container {
+    padding: 1rem 1.2rem; /* Reduced padding for smaller screens */
+  }
+
+  .project-room-header h1 {
+    font-size: 1.6rem; /* Smaller title on mobile */
+  }
+
+  .project-room-layout {
+    grid-template-columns: 1fr; /* Stack main content and sidebar vertically */
+    gap: 1rem; /* Reduced gap */
+  }
+
+  .project-sidebar, .project-main-content {
+    padding: 0.8rem; /* Reduced padding inside modules */
+    border-radius: 6px; /* Slightly smaller border radius */
+  }
+
+  .collaboration-tabs {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.2rem;
+  }
+  .collaboration-tabs button {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.8rem;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+  }
+
+  .task-board {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.6rem;
+  }
+    .task-column h3 {
+        font-size: 0.85rem;
+    }
+    .task-card {
+        font-size: 0.75rem;
+        padding: 0.6rem;
+    }
+
+  .chat-window {
+    height: 180px;
+    font-size: 0.75rem;
+    padding: 0.6rem;
+  }
+    .chat-message {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+    }
+    .chat-input-area {
+        gap: 0.4rem;
+    }
+    textarea {
+        min-height: 50px;
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+    .chat-send-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .file-list {
+        font-size: 0.75rem;
+        padding: 0.6rem;
+    }
+    .file-list li {
+        font-size: 0.7rem;
+    }
+    .upload-file-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-room-container {
+        padding: 0.8rem 1rem;
+    }
+    .project-room-header h1 {
+        font-size: 1.4rem;
+    }
+    .project-status {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+    .sidebar-module h4 {
+        font-size: 0.85rem;
+    }
+    .sidebar-module ul li {
+        font-size: 0.75rem;
+    }
+    .activity-item {
+        font-size: 0.7rem;
+    }
+    .activity-item time {
+        font-size: 0.6rem;
+    }
+    .task-board {
+        grid-template-columns: 1fr;
+    }
 }

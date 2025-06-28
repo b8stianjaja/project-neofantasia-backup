@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ProjectCard from '../../entities/project/ProjectCard';
 import { getProjects } from '../../services/api';
+import DedicatedProjectRoom from '../DedicatedProjectRoom/DedicatedProjectRoom'; // Import the DedicatedProjectRoom
 import './ProjectDashboard.css';
 
 // --- Sub-component for the dynamic Collaboration Space ---
@@ -18,25 +19,13 @@ const CollaborationSpace = ({ project, onExitFocus }) => {
         );
     }
 
-    // This is where Chat, Tasks, etc., would live in the future.
+    // Render the DedicatedProjectRoom when a project is focused
+    // The onExitFocus prop can be used by DedicatedProjectRoom to provide a "back" button
     return (
-        <div className="collaboration-content">
-            <button onClick={onExitFocus} className="exit-focus-btn">
-                &larr; Return to Hub
-            </button>
-            <div className="content-header">
-                <h2>{project.title}</h2>
-                <span className={`project-status-tag status-${project.status.toLowerCase().replace(' ', '-')}`}>
-                    {project.status}
-                </span>
-            </div>
-            <p className="project-collaborators">
-                With: {project.collaborators.join(', ')}
-            </p>
-            <div className="project-tools-placeholder">
-                <p><i>(Project tools, chat, and file uploads will be displayed here.)</i></p>
-            </div>
-        </div>
+        <DedicatedProjectRoom 
+            project={project} // Pass the focused project directly as a prop
+            onExitFocus={onExitFocus} // Pass the function to unfocus
+        />
     );
 };
 

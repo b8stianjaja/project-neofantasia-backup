@@ -13,10 +13,10 @@ function HomePage() {
   const hoverSoundRef = useRef(null);
   const clickSoundRef = useRef(null);
 
-  // Menu items array with the "load game" path updated to point to the dashboard.
+  // Menu items array with the "load game" path updated to point to the new hub.
   const menuItems = [
     { name: "new game", path: "/beats", normal: "/menu/newgame12.png", hover: "/menu/newgame12hover.png" },
-    { name: "load game", path: "/dashboard", normal: "/menu/loadgame12.png", hover: "/menu/loadgame12hover.png" },
+    { name: "load game", path: "/hub", normal: "/menu/loadgame12.png", hover: "/menu/loadgame12hover.png" }, // Changed path
     { name: "config", path: "/config", normal: "/menu/config12.png", hover: "/menu/config12hover.png" },
     { name: "exit", path: "/contact", normal: "/menu/exit12.png", hover: "/menu/exit12hover.png" }
   ];
@@ -24,14 +24,14 @@ function HomePage() {
   const playHoverSound = () => {
     if (hoverSoundRef.current) {
       hoverSoundRef.current.currentTime = 0;
-      hoverSoundRef.current.play().catch(e => console.error("Audio play failed:", e));
+      hoverSoundRef.current.play().catch(e => console.error(`Audio play failed for hover.wav: ${e.message}`, e));
     }
   };
 
   const playClickSound = () => {
     if (clickSoundRef.current) {
       clickSoundRef.current.currentTime = 0;
-      clickSoundRef.current.play().catch(e => console.error("Audio play failed:", e));
+      clickSoundRef.current.play().catch(e => console.error(`Audio play failed for menu-click.wav: ${e.message}`, e));
     }
   };
 
