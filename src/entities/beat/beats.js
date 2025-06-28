@@ -1,7 +1,7 @@
-const beats = [
+export const beats = [
   {
     id: 'beat1',
-    title: '𝑆𝑡𝑖𝑙𝑙', // FIX: Changed 'name' to 'title'
+    title: '𝑆𝑡𝑖𝑙𝑙',
     artist: 'Neofantasia',
     genre: 'Trap',
     bpm: 140,
@@ -11,7 +11,7 @@ const beats = [
   },
   {
     id: 'beat2',
-    title: '𝑆ℎ𝑟𝑖𝑛𝑒', // FIX: Changed 'name' to 'title'
+    title: '𝑆ℎ𝑟𝑖𝑛𝑒',
     artist: 'Neofantasia',
     genre: 'Lo-Fi',
     bpm: 80,
@@ -21,7 +21,7 @@ const beats = [
   },
   {
     id: 'beat3',
-    title: '𝐴𝑛𝑔𝑒𝑙 𝑊𝑖𝑛𝑔𝑠', // FIX: Changed 'name' to 'title'
+    title: '𝐴𝑛𝑔𝑒𝑙 𝑊𝑖𝑛𝑔𝑠',
     artist: 'Neofantasia',
     genre: 'Pop',
     bpm: 128,
@@ -31,44 +31,12 @@ const beats = [
   },
   {
     id: 'beat4',
-    title: '𝑆𝑢𝑚𝑚𝑒𝑟𝑠 𝐺𝑜𝑛𝑒', // Added for better ring effect
+    title: '𝑆𝑢𝑚𝑚𝑒𝑟𝑠 𝐺𝑜𝑛𝑒',
     artist: 'Neofantasia',
     genre: 'Ambient',
     bpm: 100,
     price: 29.99,
     audioSrc: '/sfx/beats/summersgone.wav',
     artwork: '/artwork/artw1.png',
-  },
-  {
-    id: 'beat5',
-    title: 'Streetlight Soul', // Added for better ring effect
-    artist: 'Neofantasia',
-    genre: 'Hip-Hop',
-    bpm: 90,
-    price: 29.99,
-    audioSrc: '/sfx/energetic_flow.mp3',
-    artwork: '/artwork/artw1.png',
-  },
-  {
-    id: 'beat6',
-    title: 'Neon Drive', // Added for better ring effect
-    artist: 'Neofantasia',
-    genre: 'Synthwave',
-    bpm: 120,
-    price: 29.99,
-    audioSrc: '/sfx/title-theme.wav',
-    artwork: '/artwork/artw1.png',
-  },
-  {
-    id: 'beat7',
-    title: 'Lunar Tides', // Added for better ring effect
-    artist: 'Neofantasia',
-    genre: 'Chillwave',
-    bpm: 110,
-    price: 29.99,
-    audioSrc: '/sfx/energetic_flow.mp3',
-    artwork: '/artwork/artw1.png',
   }
 ];
-
-export default beats;

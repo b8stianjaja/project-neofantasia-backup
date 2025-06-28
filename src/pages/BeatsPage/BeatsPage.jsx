@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import BeatListItem from '../../entities/beat/BeatListItem';
+import React, { useState, useEffect } from 'react';
 import { useMusic } from '../../context/MusicContext';
-import mockBeats from '../../entities/beat/beats.js';
+import { useCart } from '../../context/CartContext';
+import { beats } from '../../entities/beat/beats';
+import BeatListItem from '../../entities/beat/BeatListItem';
 import './BeatsPage.css';
 
 const ArtworkDisplay = () => {
-  const { activeTrack, isPlaying } = useMusic();
+  const { currentBeat, isPlaying } = useMusic();
 
-  if (!activeTrack) {
+  if (!currentBeat) {
     return (
       <div className="artwork-display-container">
         <div className="artwork-wrapper" />
         <div className="artwork-title">Select a Beat</div>
+        <p className="artwork-artist">Click a track on the left to play.</p>
       </div>
     );
   }
@@ -20,65 +22,55 @@ const ArtworkDisplay = () => {
     <div className="artwork-display-container">
       <div className="artwork-wrapper">
         <img
-          src={activeTrack.artwork}
-          alt={activeTrack.title}
+          src={currentBeat.artwork}
+          alt={currentBeat.title}
           className={`artwork-image ${isPlaying ? 'playing' : ''}`}
         />
       </div>
-      <h2 className="artwork-title">{activeTrack.title}</h2>
-      <p className="artwork-artist">{activeTrack.artist}</p>
+      <h2 className="artwork-title">{currentBeat.title}</h2>
+      <p className="artwork-artist">{currentBeat.artist}</p>
     </div>
   );
 };
 
-const BeatsPage = () => {
-    const [beats, setBeats] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+function BeatsPage() {
+  const [beatData, setBeatData] = useState([]);
+  const { playBeat } = useMusic();
+  const { addToCart } = useCart();
 
-    useEffect(() => {
-        try {
-            setTimeout(() => {
-                if (Array.isArray(mockBeats)) {
-                    setBeats(mockBeats);
-                } else {
-                    setBeats(mockBeats.default || []);
-                }
-                setIsLoading(false);
-            }, 500);
-        } catch (err) {
-            console.error("Error loading beats:", err);
-            setError('Failed to load beats. Please try again later.');
-            setIsLoading(false);
-        }
-    }, []);
+  useEffect(() => {
+    const formattedBeats = beats.map(beat => ({
+      ...beat,
+      audio: beat.audioSrc
+    }));
+    setBeatData(formattedBeats);
+  }, []);
 
-    const memoizedBeatList = useMemo(() => {
-        if (!Array.isArray(beats)) return null;
-        return beats.map(beat => <BeatListItem key={beat.id} beat={beat} />);
-    }, [beats]);
-
-    const renderContent = () => {
-        if (isLoading) return <p className="loading-message">Loading beats...</p>;
-        if (error) return <p className="error-message">{error}</p>;
-        return <div className="beat-list-items">{memoizedBeatList}</div>;
-    };
-
-    return (
-        <div className="beats-page-layout">
-            <div className="beat-list-container">
-                <div className="beat-list-header">
-                    <span>{/* Play button column */}</span>
-                    <span>Track</span>
-                    <span>Genre</span>
-                    <span>BPM</span>
-                    <span>Price</span>
-                </div>
-                {renderContent()}
-            </div>
-            <ArtworkDisplay />
+  return (
+    <div className="beats-page-layout">
+      <div className="beat-list-container">
+        <header className="beat-list-header">
+          <span></span>
+          <span>Track</span>
+          <span>Genre</span>
+          <span>BPM</span>
+          <span>Price</span>
+          <span></span>
+        </header>
+        <div className="beat-list-items">
+          {beatData.map(beat => (
+            <BeatListItem
+              key={beat.id}
+              beat={beat}
+              onPlay={() => playBeat(beat)}
+              onAddToCart={() => addToCart(beat)}
+            />
+          ))}
         </div>
-    );
-};
+      </div>
+      <ArtworkDisplay />
+    </div>
+  );
+}
 
 export default BeatsPage;

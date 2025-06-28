@@ -3,41 +3,37 @@ import { useMusic } from '../../context/MusicContext';
 import { useCart } from '../../context/CartContext';
 import './BeatListItem.css';
 
-const BeatListItem = React.memo(({ beat }) => {
-  const { playBeat, pauseBeat, activeTrack, isPlaying } = useMusic();
-  const { addToCart, cartItems } = useCart();
+const BeatListItem = ({ beat, onPlay, onAddToCart }) => {
+  const { currentBeat, isPlaying, togglePlay } = useMusic();
+  const { cartItems } = useCart();
 
-  const isThisBeatPlaying = activeTrack?.id === beat.id && isPlaying;
-  const isThisBeatSelected = activeTrack?.id === beat.id;
+  const isThisBeatActive = currentBeat?.id === beat.id;
   const isInCart = cartItems.some(item => item.id === beat.id);
 
-  const handlePlayPauseClick = (e) => {
-    e.stopPropagation();
-    if (isThisBeatPlaying) {
-      pauseBeat();
+  const handlePlayClick = (e) => {
+    // Stop the event from bubbling up to the main div's onClick
+    if (e) e.stopPropagation();
+
+    if (isThisBeatActive) {
+      togglePlay();
     } else {
-      playBeat(beat);
+      onPlay();
     }
   };
 
-  const handleRowClick = () => {
-    if (!isThisBeatPlaying) {
-      playBeat(beat);
-    }
-  };
-
-  const handleAddToCart = (e) => {
+  const handleAddToCartClick = (e) => {
     e.stopPropagation();
-    addToCart(beat);
+    onAddToCart();
   };
 
-  const itemClasses = `beat-list-item ${isThisBeatSelected ? 'selected' : ''}`;
+  const itemClasses = `beat-list-item ${isThisBeatActive ? 'selected' : ''}`;
 
   return (
-    <div className={itemClasses} onClick={handleRowClick}>
+    // Clicking the entire row should behave the same as clicking the play button
+    <div className={itemClasses} onClick={() => handlePlayClick()}>
       <div className="item-play-status">
-        <button onClick={handlePlayPauseClick} className="play-pause-btn" aria-label={isThisBeatPlaying ? 'Pause' : 'Play'}>
-          {isThisBeatPlaying ? '❚❚' : '▶'}
+        <button onClick={handlePlayClick} className="play-pause-btn">
+          {isThisBeatActive && isPlaying ? '❚❚' : '▶'}
         </button>
       </div>
       <div className="item-track-info">
@@ -53,15 +49,14 @@ const BeatListItem = React.memo(({ beat }) => {
         <span className="item-price">${beat.price.toFixed(2)}</span>
         <button
           className="add-to-cart-btn"
-          onClick={handleAddToCart}
+          onClick={handleAddToCartClick}
           disabled={isInCart}
-          aria-label={isInCart ? 'In Cart' : 'Add to Cart'}
         >
-          {isInCart ? '✓ IN CART' : 'ADD +'}
+          {isInCart ? 'IN CART' : 'ADD +'}
         </button>
       </div>
     </div>
   );
-});
+};
 
 export default BeatListItem;
