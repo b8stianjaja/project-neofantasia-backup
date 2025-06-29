@@ -19,8 +19,28 @@ export const beats = [
     audioSrc: '/sfx/shrine.mp3',
     artwork: '/artwork/ffx1.gif',
   },
-  {
+    {
     id: 'beat3',
+    title: '𝑆ℎ𝑟𝑖𝑛𝑒',
+    artist: 'Neofantasia',
+    genre: 'Lo-Fi',
+    bpm: 80,
+    price: 29.99,
+    audioSrc: '/sfx/shrine.mp3',
+    artwork: '/artwork/ffx1.gif',
+  },
+    {
+    id: 'beat4',
+    title: '𝑆ℎ𝑟𝑖𝑛𝑒',
+    artist: 'Neofantasia',
+    genre: 'Lo-Fi',
+    bpm: 80,
+    price: 29.99,
+    audioSrc: '/sfx/shrine.mp3',
+    artwork: '/artwork/ffx1.gif',
+  },
+  {
+    id: 'beat5',
     title: '𝑆𝑢𝑚𝑚𝑒𝑟𝑠 𝐺𝑜𝑛𝑒',
     artist: 'Neofantasia',
     genre: 'Pop',
@@ -30,7 +50,7 @@ export const beats = [
     artwork: '/artwork/artw1.png',
   },
   {
-    id: 'beat4',
+    id: 'beat6',
     title: '𝑆𝑢𝑚𝑚𝑒𝑟𝑠 𝐺𝑜𝑛𝑒',
     artist: 'Neofantasia',
     genre: 'Ambient',
