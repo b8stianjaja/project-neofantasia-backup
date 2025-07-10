@@ -1,0 +1,61 @@
+/* src/pages/ContactPage/ContactPage.css */
+.contact-form-window {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  backdrop-filter: blur(5px);
+  text-align: center;
+}
+
+.contact-title {
+    font-family: var(--vn-font);
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--ui-border);
+  color: var(--text-color);
+  font-family: var(--vn-font);
+  font-size: 1.1rem;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-color: var(--highlight-color);
+}
+
+.form-status {
+    margin-top: 1rem;
+    color: var(--highlight-color);
+}
+
+/* Ensure crystal-button from beat card is available or redefine here if needed */
