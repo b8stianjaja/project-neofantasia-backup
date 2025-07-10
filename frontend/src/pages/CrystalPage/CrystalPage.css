@@ -1,14 +1,7 @@
 /* frontend/src/pages/CrystalPage/CrystalPage.css */
 
-.nexus-page-wrapper {
+.crystal-canvas-container {
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
-  background-color: #05050a;
-  cursor: none; /* Hide the default cursor for a more immersive feel */
-}
-
-/* Ensure the canvas fills the entire container */
-.nexus-page-wrapper canvas {
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+  background-color: #101015; /* A simple dark background */
 }
