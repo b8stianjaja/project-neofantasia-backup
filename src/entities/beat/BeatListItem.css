@@ -76,13 +76,11 @@
   cursor: not-allowed;
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-  /* This is the only change for the list items */
   .dialogue-option {
     font-size: 1.1rem;
-    padding: 0.7rem 0.5rem; /* Slightly more vertical padding */
-    gap: 0.6rem; /* A tiny bit more space between elements */
+    padding: 0.7rem 0.5rem;
+    gap: 0.6rem;
   }
 
   .play-indicator {

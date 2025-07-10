@@ -8,14 +8,9 @@ function CollaborationHub() {
   const { purchasedBeats } = useCart();
   const [focusedProject, setFocusedProject] = useState(null);
 
-  // This effect will run ONLY when the purchasedBeats array changes.
   useEffect(() => {
-    console.log("✅ CollaborationHub received new state! purchasedBeats is now:", purchasedBeats);
-    
-    // If we have new projects and nothing is selected, select the first one.
     if (purchasedBeats.length > 0) {
         const currentFocusedId = focusedProject ? focusedProject.id : null;
-        // Check if the currently focused project is still in the list
         const focusedExists = purchasedBeats.some(p => p.id === currentFocusedId);
         if (!focusedExists) {
             setFocusedProject(purchasedBeats[0]);
@@ -23,10 +18,8 @@ function CollaborationHub() {
     } else {
         setFocusedProject(null);
     }
-  }, [purchasedBeats]); // The key is having `purchasedBeats` as a dependency.
+  }, [purchasedBeats]);
 
-
-  // ... (the rest of your CollaborationHub component code remains the same)
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {

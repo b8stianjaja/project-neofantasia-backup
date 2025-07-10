@@ -5,7 +5,6 @@ import { beats } from '../../entities/beat/beats';
 import BeatListItem from '../../entities/beat/BeatListItem';
 import './BeatsPage.css';
 
-// Scene component remains the same
 const Scene = ({ isLoaded, showArtwork }) => {
   const { currentBeat } = useMusic();
 
@@ -26,15 +25,11 @@ const Scene = ({ isLoaded, showArtwork }) => {
 };
 
 
-// DialogueBox component is now a simple wrapper for the new structure
 const DialogueBox = ({ beats, onBeatSelect, onAddToCart, isLoaded }) => {
   return (
-    // 1. This new wrapper now controls the overall position and animation
     <div className={`dialogue-wrapper ${isLoaded ? 'loaded' : ''}`}>
-      {/* 2. The header is now a sibling, making positioning simple */}
       <div className="dialogue-header">✧✧✧✧✧✧✧✧✧✧</div>
 
-      {/* 3. The container just holds the list */}
       <div className="dialogue-container">
         <div className="dialogue-content-wrapper">
           <img

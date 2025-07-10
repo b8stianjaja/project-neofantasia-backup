@@ -11,13 +11,10 @@
     
     <script>
       function setTrueViewportHeight() {
-        // This calculates the window's inner height and sets it as a CSS variable.
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
       }
-      // Run the function on resize events.
       window.addEventListener('resize', setTrueViewportHeight);
-      // Run the function once on initial load.
       setTrueViewportHeight();
     </script>
     </head>

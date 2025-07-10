@@ -15,7 +15,6 @@ const BeatListItem = ({ beat, onPlay, onAddToCart }) => {
     onAddToCart();
   };
 
-  // Add the 'is-playing' class when the beat is active and playing
   const itemClasses = `dialogue-option ${isThisBeatActive ? 'selected' : ''} ${
     isThisBeatActive && isPlaying ? 'is-playing' : ''
   }`;
@@ -23,7 +22,6 @@ const BeatListItem = ({ beat, onPlay, onAddToCart }) => {
   return (
     <div className={itemClasses} onClick={onPlay}>
       <div className="play-indicator">
-        {/* Your new symbol looks great here! */}
         {isThisBeatActive && isPlaying ? '★' : '☆'}
       </div>
       <span className="option-text">{beat.title} - by {beat.artist}</span>

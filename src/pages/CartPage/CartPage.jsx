@@ -1,30 +1,20 @@
 import React from 'react';
 import { useCart } from '../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import './CartPage.css'; // Ensure you have this CSS file
+import './CartPage.css';
 
 function CartPage() {
   const { cartItems, removeFromCart, addPurchasedBeats, clearCart } = useCart();
   const navigate = useNavigate();
 
   const handleConfirmCheckout = () => {
-    console.log("--- CartPage: Confirm button clicked! ---");
-    
     if (!cartItems || cartItems.length === 0) {
-        console.error("Checkout failed: Cart is empty.");
         alert("Your cart is empty!");
         return;
     }
 
-    // --- The two crucial steps of a successful purchase ---
-    // 1. Move items from the temporary cart to the permanent "purchased" list.
     addPurchasedBeats(cartItems);
-
-    // 2. Clear the temporary cart.
     clearCart();
-
-    console.log("--- CartPage: Navigating to /hub ---");
-    // 3. Navigate to the hub to see the results.
     navigate('/hub');
   };
 

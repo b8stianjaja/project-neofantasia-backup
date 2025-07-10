@@ -29,16 +29,14 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    /* Pushed down from the vertical center */
     transform: translateY(25vh);
 }
 
 .prompt-image {
-  /* A more responsive height */
   height: 150px;
   width: auto;
   filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
-  transition: height 0.3s ease; /* Smooth transition for size changes */
+  transition: height 0.3s ease;
 }
 
 
@@ -47,22 +45,18 @@
   to { background-position: 60% 50%; }
 }
 
-/* --- Mobile Responsive Design --- */
 @media (max-width: 768px) {
   .interaction-content {
-    /* Bring the content up slightly on smaller screens */
     transform: translateY(20vh);
   }
 
   .prompt-image {
-    /* Reduce image size for mobile */
     height: 120px;
   }
 }
 
 @media (max-width: 480px) {
   .prompt-image {
-    /* Further reduce for very small screens */
     height: 100px;
   }
 }

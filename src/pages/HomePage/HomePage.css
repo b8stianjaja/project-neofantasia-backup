@@ -1,13 +1,11 @@
-/* src/pages/HomePage/HomePage.css - Updated for PNG-based menu */
-
 .title-screen {
   height: 100vh;
   width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-  color: #fff; /* Using a var is better but static value for clarity */
-  font-family: 'Royalacid', sans-serif; /* Using a var is better */
+  color: #fff;
+  font-family: 'Royalacid', sans-serif;
   background-image: url('/bgr/gfwcyan.gif');
   background-size: cover;
   background-position: center;
@@ -36,7 +34,7 @@
 .title-content {
   position: relative;
   z-index: 2;
-  animation: fadeIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; /* Using a var is better */
+  animation: fadeIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +63,7 @@
 
 .main-menu li {
   opacity: 0;
-  animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Using a var is better */
+  animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes fadeInUp {
@@ -78,26 +76,21 @@
   to { opacity: 1; }
 }
 
-/* --- NEW SIMPLIFIED MENU STYLES --- */
-
-/* This class is now just for controlling link spacing */
 .menu-link {
-  display: block; /* Important for layout */
-  padding: 0.25rem 0; /* Adjust vertical space between menu items */
+  display: block;
+  padding: 0.25rem 0;
   text-decoration: none !important;
-  line-height: 1; /* Prevent extra space from text properties */
+  line-height: 1;
 }
 
-/* This new class styles your PNG images */
 .menu-image {
   height: 50px;  
-  width: auto; /* Maintains aspect ratio */
+  width: auto;
   transition: transform 0.2s ease-out;
 }
 
-/* You can still add a simple CSS effect on top of the image swap */
 .menu-link:hover .menu-image {
-  transform: scale(1.1); /* Makes the image slightly larger on hover */
+  transform: scale(1.1);
 }
 
 
@@ -112,9 +105,6 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ----------------------------------- */
-/* Mobile Responsive Design            */
-/* ----------------------------------- */
 @media (max-width: 768px) {
 
   .title-logo {
@@ -125,7 +115,6 @@
     margin-bottom: 2rem;
   }
 
-  /* Adjust menu image size for smaller screens */
   .menu-image {
     height: 40px;
   }

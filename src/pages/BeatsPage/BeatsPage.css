@@ -133,17 +133,15 @@
 
 /* --- RESPONSIVENESS --- */
 
-/* Tablet Breakpoint */
 @media (max-width: 1024px) {
   .sprite-layer {
     background-position: right -25vw bottom;
   }
 }
 
-/* Mobile Breakpoint */
 @media (max-width: 768px) {
   .sprite-layer {
-    background-size: auto 70vh; /* CORRECTED: Reduced sprite height */
+    background-size: auto 70vh;
     background-position: right -35vw bottom;
   }
   .artwork-holder {
@@ -157,7 +155,7 @@
   }
   .dialogue-wrapper {
     width: 92%;
-    bottom: 1rem; /* CORRECTED: Increased bottom spacing */
+    bottom: 1rem;
   }
   .dialogue-header {
     font-size: 1rem;
@@ -166,9 +164,9 @@
     margin-left: 10px; 
   }
   .dialogue-container {
-    height: 130px; /* CORRECTED: Using a fixed, reliable height */
-    max-height: none; /* No longer needed */
-    min-height: none; /* No longer needed */
+    height: 130px;
+    max-height: none;
+    min-height: none;
     padding: 0.5rem;
   }
   .dialogue-ornament {

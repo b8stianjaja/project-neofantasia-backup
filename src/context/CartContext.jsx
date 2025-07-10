@@ -9,7 +9,6 @@ export const CartProvider = ({ children }) => {
     const [purchasedBeats, setPurchasedBeats] = useState([]);
 
     const addToCart = (beat) => {
-        // This part is working correctly
         setCartItems(prevItems => [...prevItems, beat]);
     };
 
@@ -17,14 +16,11 @@ export const CartProvider = ({ children }) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== beatId));
     };
 
-    // This is the function that moves items to the final list
     const addPurchasedBeats = (beats) => {
-        console.log("✅ addPurchasedBeats CALLED with:", beats);
         setPurchasedBeats(prevBeats => [...prevBeats, ...beats]);
     };
 
     const clearCart = () => {
-        console.log("✅ clearCart CALLED");
         setCartItems([]);
     };
 
